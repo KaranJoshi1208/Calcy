@@ -7,15 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.karan.calcy.model.CalculatorState
 import com.karan.calcy.screens.Calcy
 import com.karan.calcy.ui.theme.CalcyTheme
 import com.karan.calcy.ui.theme.MediumGray
@@ -28,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CalcyTheme {
                 val viewModel = viewModel<CalViewModel>()
-                val state = viewModel.state
+                val state = viewModel.nip
                 val btnSpacing = 8.dp
 
                 Calcy(

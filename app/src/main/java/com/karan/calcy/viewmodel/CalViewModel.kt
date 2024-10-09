@@ -1,7 +1,6 @@
 package com.karan.calcy.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,8 +10,11 @@ import com.karan.calcy.model.CalculatorState
 
 class CalViewModel(application: Application) : AndroidViewModel(application) {
 
-    var state by mutableStateOf(CalculatorState())
+    // nip -> as in "Snippet"
+    var nip = CalculatorState()
         private set
+    
+    var exp by mutableStateOf("")
 
     companion object {
         private const val MAX_NUM_LENGTH = 8
@@ -28,68 +30,70 @@ class CalViewModel(application: Application) : AndroidViewModel(application) {
 //        val cal : CalculatorActions.Operator = action as CalculatorActions.Operator
 //        Log.d("onAction")
 
-        when (action) {
+        when(action) {
             is CalculatorActions.Number -> enterNumber(action.num)
             is CalculatorActions.Calculate -> calculate()
-            is CalculatorActions.AllClear -> state = CalculatorState()
+            is CalculatorActions.AllClear -> nip = CalculatorState()
             is CalculatorActions.Decimal -> enterDecimal()
             is CalculatorActions.Clear -> delete()
             is CalculatorActions.Operator -> enterOperation(action)
 //            is CalculatorActions.Operation -> TODO()
         }
+
+        // here , do it here , fetch the nip and print exp
     }
 
 
     // CAN IMPROVISE HERE >>> {REMOVE THIS REDUNDANT FUNCTION, WHY??}
     private fun enterOperation(op: CalculatorActions.Operator) {
-        if (state.op != null && state.num2.isNotBlank()) {
+        if (nip.op != null && nip.num2.isNotBlank()) {
             calculate()
         }
-        state.op = op
+        nip.op = op
     }
 
     private fun delete() {
         when {
-            state.num2.isNotBlank() -> state.num2.dropLast(1)
+            nip.num2.isNotBlank() -> nip.num2.dropLast(1)
 
-            (state.op != null) -> state.op = null
+            (nip.op != null) -> nip.op = null
 
-            state.num1.isNotBlank() -> state.num1.dropLast(1)
+            nip.num1.isNotBlank() -> nip.num1.dropLast(1)
         }
     }
 
     private fun enterDecimal() {
-        if (state.op != null && (!state.num1.contains("."))) {
-            state.num1 += "."
+        if (nip.op != null && (!nip.num1.contains("."))) {
+            nip.num1 += "."
             return
         }
 
         // removing this condition "state.num2.isNotBlank())",
         // I think it's redundant , but it could also become a potential bug
-        if (!state.num2.contains(".")) {
-            state.num2 += "."
+        if (!nip.num2.contains(".")) {
+            nip.num2 += "."
             return
         }
     }
 
 
     private fun enterNumber(num: Int) {
-        if (state.op == null) {
-            if (state.num1.length < MAX_NUM_LENGTH) {
-                state.num1 += num
+        if (nip.op == null) {
+            if (nip.num1.length < MAX_NUM_LENGTH) {
+                nip.num1 += num
             }
         } else {
-            if (state.num2.length < MAX_NUM_LENGTH) {
-                state.num2 += num
+            if (nip.num2.length < MAX_NUM_LENGTH) {
+                nip.num2 += num
             }
         }
     }
 
     private fun calculate() {
-        val n1 = state.num1.toDoubleOrNull()
-        val n2 = state.num2.toDoubleOrNull()
+        val n1 = nip.num1.toDoubleOrNull()
+        val n2 = nip.num2.toDoubleOrNull()
         if (n1 != null && n2 != null) {
-            val result = when (state.op) {
+            val result = when (nip.op) {
                 is CalculatorActions.Operator.Add -> n1 + n2
                 is CalculatorActions.Operator.Subtract  -> n1 - n2
                 is CalculatorActions.Operator.Multiply  -> n1 * n2
@@ -98,7 +102,7 @@ class CalViewModel(application: Application) : AndroidViewModel(application) {
                     return
                 }
             }
-            state.apply {
+            nip.apply {
                 num1 = result.toString().take(15)
                 num2 = ""
                 op = null

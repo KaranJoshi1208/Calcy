@@ -85,18 +85,26 @@ fun Calcy(
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
                     .padding(vertical = 2.dp),
-                horizontalArrangement = Arrangement.End
             ) {
                 Text(
                     text = state.num1 + (state.op?.symbol ?: "") + state.num2,
-                    textAlign = TextAlign.End,
                     modifier = Modifier
                         .height(100.dp),
                     fontWeight = FontWeight.Light,
-                    fontSize = 80.sp,
+                    fontSize = 50.sp,
                     color = Color.White,
                 )
             }
+            Text(
+                text = state.num1 ,
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                fontWeight = FontWeight.Light,
+                fontSize = 70.sp,
+                color = Color.White,
+            )
 
             Spacer(
                 modifier = Modifier
