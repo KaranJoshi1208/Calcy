@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karan.calcy.screens.Calcy
 import com.karan.calcy.ui.theme.CalcyTheme
+import com.karan.calcy.ui.theme.DarkGray
 import com.karan.calcy.ui.theme.MediumGray
 import com.karan.calcy.viewmodel.CalViewModel
 
@@ -31,9 +32,7 @@ class MainActivity : ComponentActivity() {
                     buttonSpacing = btnSpacing,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MediumGray)
-                        .padding(16.dp)
-
+                        .background(DarkGray)
                 )
             }
         }

@@ -8,9 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.karan.calcy.model.CalculatorActions
 import com.karan.calcy.model.CalculatorState
 import com.karan.calcy.model.ShuntYard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CalViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -35,11 +38,13 @@ class CalViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             is CalculatorActions.Calculate -> {
-                ans.value = try {
-                    ShuntYard(exp.value).evaluate()
+                try {
+                    viewModelScope.launch(Dispatchers.Main) {
+                        ans.value = ShuntYard(exp.value).evaluate().toString()
+                    }
                 } catch (e: Exception) {
-                    "Error \uD83D\uDC80"
-                }.toString()
+                    ans.value = "Error \uD83D\uDC80"
+                }
             }
 
             is CalculatorActions.AllClear -> {

@@ -1,10 +1,7 @@
 package com.karan.calcy.screens
 
-import androidx.compose.animation.core.animate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,11 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,12 +34,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.karan.calcy.model.CalculatorActions
-import com.karan.calcy.model.CalculatorState
+import com.karan.calcy.ui.theme.DarkGray
 import com.karan.calcy.ui.theme.LightGray
 import com.karan.calcy.ui.theme.MediumGray
 import com.karan.calcy.ui.theme.Orange
 import com.karan.calcy.ui.theme.Purple40
-import java.awt.font.NumericShaper
 
 @Composable
 fun CalButton(
@@ -54,13 +49,14 @@ fun CalButton(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
+            .size(70.dp)
+            .clip(RoundedCornerShape(28.dp))
             .clickable { onClick() }
             .then(modifier)
     ) {
         Text(
             text = content,
-            fontSize = 32.sp,
+            fontSize = 24.sp,
             color = MaterialTheme.colorScheme.background
         )
     }
@@ -70,17 +66,18 @@ fun CalButton(
 fun Calcy(
     expState: MutableState<String>,
     ansState : MutableState<String>,
-    buttonSpacing: Dp = 8.dp,
+    buttonSpacing: Dp = 12.dp,
     modifier: Modifier = Modifier,
     onAction: (CalculatorActions) -> Unit
 ) {
     Box(
         modifier = Modifier
+            .fillMaxSize()
     ) {
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp),
+                .fillMaxSize()
+                .padding(top = 44.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
             Row(
@@ -125,29 +122,36 @@ fun Calcy(
             Column(
                 modifier = Modifier
                     .padding(vertical = 32.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     CalButton(
                         content = "AC",
                         modifier = Modifier
-                            .background(LightGray)
-                            .aspectRatio(2f)
-                            .weight(2f),
+                            .background(Color.Red)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.AllClear)
                         }
                     )
                     CalButton(
-                        content = "Del",
+                        content = "(",
                         modifier = Modifier
-                            .background(LightGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
+                        onClick = {
+                            onAction(CalculatorActions.Clear)
+                        }
+                    )
+                    CalButton(
+                        content = ")",
+                        modifier = Modifier
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Clear)
                         }
@@ -156,8 +160,7 @@ fun Calcy(
                         content = "/",
                         modifier = Modifier
                             .background(Orange)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Operator.Divide)
                         }
@@ -167,14 +170,14 @@ fun Calcy(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     CalButton(
                         content = "7",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .size(70.dp)
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(7))
                         }
@@ -182,9 +185,9 @@ fun Calcy(
                     CalButton(
                         content = "8",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .size(70.dp)
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(8))
                         }
@@ -192,9 +195,9 @@ fun Calcy(
                     CalButton(
                         content = "9",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .size(70.dp)
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(9))
                         }
@@ -202,9 +205,9 @@ fun Calcy(
                     CalButton(
                         content = "*",
                         modifier = Modifier
+                            .size(70.dp)
                             .background(Orange)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Operator.Multiply)
                         }
@@ -215,14 +218,13 @@ fun Calcy(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     CalButton(
                         content = "4",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(4))
                         }
@@ -230,9 +232,8 @@ fun Calcy(
                     CalButton(
                         content = "5",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(5))
                         }
@@ -240,9 +241,8 @@ fun Calcy(
                     CalButton(
                         content = "6",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(6))
                         }
@@ -251,8 +251,7 @@ fun Calcy(
                         content = "-",
                         modifier = Modifier
                             .background(Orange)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Operator.Subtract)
                         }
@@ -262,14 +261,13 @@ fun Calcy(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     CalButton(
                         content = "1",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(1))
                         }
@@ -277,9 +275,8 @@ fun Calcy(
                     CalButton(
                         content = "2",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(2))
                         }
@@ -287,9 +284,8 @@ fun Calcy(
                     CalButton(
                         content = "3",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(3))
                         }
@@ -298,8 +294,7 @@ fun Calcy(
                         content = "+",
                         modifier = Modifier
                             .background(Orange)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Operator.Add)
                         }
@@ -309,15 +304,14 @@ fun Calcy(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
 
                     CalButton(
                         content = "M",
                         modifier = Modifier
                             .background(Color.Magenta)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        ,
                         onClick = {
 //                            onAction(CalculatorActions.Operation.Add)
                         }
@@ -325,9 +319,8 @@ fun Calcy(
                     CalButton(
                         content = "0",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Number(0))
                         }
@@ -335,9 +328,8 @@ fun Calcy(
                     CalButton(
                         content = ".",
                         modifier = Modifier
-                            .background(Color.DarkGray)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                            .background(MediumGray)
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Decimal)
                         }
@@ -347,8 +339,7 @@ fun Calcy(
                         modifier = Modifier
                             .clip(CircleShape)
                             .background(Purple40)
-                            .aspectRatio(1f)
-                            .weight(1f),
+                        ,
                         onClick = {
                             onAction(CalculatorActions.Calculate)
                         }
@@ -364,12 +355,11 @@ fun Calcy(
 private fun Preview() {
     Calcy(
         expState = remember { mutableStateOf("") },
-        ansState = remember { mutableStateOf("") },
-        buttonSpacing = 8.dp,
+        ansState = remember { mutableStateOf("0") },
         modifier = Modifier
             .fillMaxSize()
-            .background(MediumGray)
-            .padding(16.dp),
+            .background(DarkGray)
+        ,
         onAction = {}
     )
 
