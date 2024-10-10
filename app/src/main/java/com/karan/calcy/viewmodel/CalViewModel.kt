@@ -41,6 +41,8 @@ class CalViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         // here , do it here , fetch the nip and print exp
+        exp = (action as CalculatorActions.Operator).symbol
+
     }
 
 
