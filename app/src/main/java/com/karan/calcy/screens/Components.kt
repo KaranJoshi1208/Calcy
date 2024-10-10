@@ -1,5 +1,6 @@
 package com.karan.calcy.screens
 
+import androidx.compose.animation.core.animate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -22,7 +23,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,9 +47,9 @@ import java.awt.font.NumericShaper
 
 @Composable
 fun CalButton(
-    content : String,
+    content: String,
     modifier: Modifier = Modifier,
-    onClick : () -> Unit
+    onClick: () -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -65,29 +68,28 @@ fun CalButton(
 
 @Composable
 fun Calcy(
-    state : CalculatorState,
-    buttonSpacing : Dp = 8.dp,
+    expState: MutableState<String>,
+    ansState : MutableState<String>,
+    buttonSpacing: Dp = 8.dp,
     modifier: Modifier = Modifier,
-    onAction : (CalculatorActions) -> Unit
+    onAction: (CalculatorActions) -> Unit
 ) {
     Box(
         modifier = Modifier
-    ){
+    ) {
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp)
-                .align(Alignment.BottomCenter),
+                .padding(top = 32.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-                    .padding(vertical = 2.dp),
+                    .horizontalScroll(rememberScrollState()),
             ) {
                 Text(
-                    text = state.num1 + (state.op?.symbol ?: "") + state.num2,
+                    text = expState.value,
                     modifier = Modifier
                         .height(100.dp),
                     fontWeight = FontWeight.Light,
@@ -95,16 +97,23 @@ fun Calcy(
                     color = Color.White,
                 )
             }
-            Text(
-                text = state.num1 ,
-                textAlign = TextAlign.End,
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp),
-                fontWeight = FontWeight.Light,
-                fontSize = 70.sp,
-                color = Color.White,
-            )
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "= " + ansState.value,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp),
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 70.sp,
+                    color = Color.White,
+                )
+            }
 
             Spacer(
                 modifier = Modifier
@@ -191,7 +200,7 @@ fun Calcy(
                         }
                     )
                     CalButton(
-                        content = "x",
+                        content = "*",
                         modifier = Modifier
                             .background(Orange)
                             .aspectRatio(1f)
@@ -339,8 +348,7 @@ fun Calcy(
                             .clip(CircleShape)
                             .background(Purple40)
                             .aspectRatio(1f)
-                            .weight(1f)
-                        ,
+                            .weight(1f),
                         onClick = {
                             onAction(CalculatorActions.Calculate)
                         }
@@ -354,8 +362,9 @@ fun Calcy(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun Preview() {
-    Calcy (
-        state = CalculatorState(),
+    Calcy(
+        expState = remember { mutableStateOf("") },
+        ansState = remember { mutableStateOf("") },
         buttonSpacing = 8.dp,
         modifier = Modifier
             .fillMaxSize()
@@ -363,5 +372,5 @@ private fun Preview() {
             .padding(16.dp),
         onAction = {}
     )
-    
+
 }

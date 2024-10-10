@@ -22,11 +22,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             CalcyTheme {
                 val viewModel = viewModel<CalViewModel>()
-                val state = viewModel.nip
                 val btnSpacing = 8.dp
 
                 Calcy(
-                    state = state,
+                    expState = viewModel.exp,
+                    ansState = viewModel.ans,
                     onAction = viewModel::onAction,
                     buttonSpacing = btnSpacing,
                     modifier = Modifier
