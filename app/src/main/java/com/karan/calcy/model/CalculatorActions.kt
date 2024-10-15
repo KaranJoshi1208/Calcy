@@ -14,6 +14,8 @@ sealed class CalculatorActions {
         object Subtract : Operator("-")
         object Multiply : Operator("*")
         object Divide : Operator("/")
+        object Opening : Operator("(")
+        object Closing : Operator(")")
         object Sine : Operator("sin")
     }
 }
