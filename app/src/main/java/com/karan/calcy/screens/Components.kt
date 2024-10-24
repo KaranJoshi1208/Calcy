@@ -246,11 +246,11 @@ fun Calcy(
                         }
                     )
                     CalButton(
-                        content = "/",
+                        content = "C",
                         modifier = Modifier
-                            .background(Orange),
+                            .background(Color(0xFF009688)),
                         onClick = {
-                            onAction(CalculatorActions.Operator.Divide)
+                            onAction(CalculatorActions.Clear)
                         }
                     )
                 }
@@ -297,11 +297,11 @@ fun Calcy(
                         }
                     )
                     CalButton(
-                        content = "/",
+                        content = "^",
                         modifier = Modifier
                             .background(Orange),
                         onClick = {
-                            onAction(CalculatorActions.Operator.Divide)
+                            onAction(CalculatorActions.Operator.Power)
                         }
                     )
                 }
@@ -346,11 +346,11 @@ fun Calcy(
                     )
 
                     CalButton(
-                        content = "/",
+                        content = "%",
                         modifier = Modifier
                             .background(Orange),
                         onClick = {
-                            onAction(CalculatorActions.Operator.Divide)
+                            onAction(CalculatorActions.Operator.Percentage)
                         }
                     )
                 }
@@ -394,11 +394,11 @@ fun Calcy(
                     )
 
                     CalButton(
-                        content = "/",
+                        content = "√x",
                         modifier = Modifier
                             .background(Orange),
                         onClick = {
-                            onAction(CalculatorActions.Operator.Divide)
+                            onAction(CalculatorActions.Operator.Sqrt)
                         }
                     )
                 }
@@ -465,7 +465,7 @@ fun Calcy(
 @Composable
 private fun Preview() {
     Calcy(
-        expState = remember { mutableStateOf(TextFieldValue("3+8")) },
+        expState = remember { mutableStateOf(TextFieldValue("√3+8")) },
         ansState = remember { mutableStateOf("0") },
         modifier = Modifier
             .fillMaxSize()
