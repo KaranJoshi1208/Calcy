@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -43,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -95,11 +98,12 @@ fun Calcy(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
     ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(top = 44.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                .padding(top = 44.dp, start = 16.dp, end = 16.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
             val keyBoard = LocalSoftwareKeyboardController.current
@@ -111,7 +115,7 @@ fun Calcy(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 100.dp)
+                    .padding(bottom = 120.dp)
                     .horizontalScroll(rememberScrollState()),
 
                 ) {
@@ -137,8 +141,8 @@ fun Calcy(
                                 drawLine(
                                     color = Color.Red,
                                     start = cursorOffset.value,
-                                    end = cursorOffset.value.copy(y = cursorOffset.value.y + 20.dp.toPx()), // Length of the cursor
-                                    strokeWidth = 2.dp.toPx()
+                                    end = cursorOffset.value.copy(y = cursorOffset.value.y + 50.dp.toPx()), // Length of the cursor
+                                    strokeWidth = 3.dp.toPx()
                                 )
                             }
                         }
@@ -146,42 +150,11 @@ fun Calcy(
                     singleLine = true,
                     readOnly = true
                 )
-
-//                TextField(
-//                    value = expState.value,
-//                    onValueChange = { new ->
-//                        expState.value = new
-//                    },
-//
-//                    modifier = Modifier
-//                        .onFocusChanged { focus ->
-//                            if (focus.isFocused) {
-////                                focusManager.clearFocus()
-//                                keyBoard?.hide()
-//                            }
-//                        }
-//
-//                    ,
-////                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.NumberPassword),
-//                    textStyle = LocalTextStyle.current.copy(fontSize = 44.sp, fontFamily = FontFamily.Monospace),
-//                    colors = TextFieldDefaults.colors(
-//                        unfocusedContainerColor = Color.Transparent,
-//                        focusedContainerColor = Color.Transparent,
-//                        focusedIndicatorColor = Color.Transparent,
-//                        unfocusedIndicatorColor = Color.Transparent,
-//                        focusedTextColor = Color.White,
-//                        unfocusedTextColor = MediumGray,
-//                        cursorColor = Orange
-//                    ),
-//
-//                    readOnly = true,
-//                    singleLine = true,
-//                )
             }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 32.dp)
                     .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.End
             ) {

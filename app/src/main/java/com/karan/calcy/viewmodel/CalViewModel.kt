@@ -37,7 +37,8 @@ class CalViewModel(application: Application) : AndroidViewModel(application) {
             is CalculatorActions.Calculate -> {
                 try {
                     viewModelScope.launch(Dispatchers.Main) {
-                        ans.value = ShuntYard(exp.value.text).evaluate().toString()
+                        val yard = ShuntYard(exp.value.text).evaluate()
+                        ans.value = approx(yard)
                     }
                 } catch (e: Exception) {
                     ans.value = "Error \uD83D\uDC80"
@@ -76,6 +77,14 @@ class CalViewModel(application: Application) : AndroidViewModel(application) {
             text = newExp,
             selection = TextRange(cursorAt + content.length)
         )
+    }
+
+    fun approx(value : Float) : String {
+        return if (value == value.toInt().toFloat()) {
+            value.toInt().toString()
+        } else {
+            value.toString()
+        }
     }
 }
 
